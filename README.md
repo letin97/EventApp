@@ -38,3 +38,8 @@ Xem các mặt hàng hot trên thị trường.
 ### Xem các mặt hàng hot
    
 ## Thư viện và công nghệ
+- Firebase [Docs](https://firebase.google.com/)
+- Picasso [Docs](http://square.github.io/picasso/)
+- CircleImageView [Docs](https://github.com/hdodenhof/CircleImageView)
+- KenburnView [Docs](https://github.com/flavioarfaria/KenBurnsView)
+- DiagonaLayout [Docs](https://github.com/florent37/DiagonalLayout)
