@@ -127,6 +127,7 @@ public class NewsMenuFragment extends Fragment {
                     public void onClick(View view, int position) {
                         Intent detail = new Intent(getContext(), NewsDetailActivity.class);
                         detail.putExtra("news", model);
+                        detail.putExtra("key", adapter.getRef(position).getKey());
                         startActivity(detail);
                     }
                 });
