@@ -31,7 +31,7 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
                 return CalendarFragment.getInstance(context);
 
         }
-        return null;
+        return EventDateFragment.getInstance();
     }
 
     @Override

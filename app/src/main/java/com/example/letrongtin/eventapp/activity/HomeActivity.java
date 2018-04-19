@@ -10,6 +10,7 @@ import android.view.MenuItem;
 
 import com.example.letrongtin.eventapp.R;
 import com.example.letrongtin.eventapp.fragment.EventMenuFragment;
+import com.example.letrongtin.eventapp.fragment.ItemMenuFragment;
 import com.example.letrongtin.eventapp.fragment.NewsMenuFragment;
 
 public class HomeActivity extends AppCompatActivity
@@ -53,6 +54,8 @@ public class HomeActivity extends AppCompatActivity
             case R.id.action_event:
                 fragment = new EventMenuFragment();
                 break;
+            case R.id.action_item:
+                fragment = new ItemMenuFragment();
         }
         return loadFragment(fragment);
     }
