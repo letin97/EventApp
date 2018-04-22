@@ -50,7 +50,6 @@ dependencies {
     // SpotDialog
     implementation 'com.github.d-max:spots-dialog:0.7@aar'
 
-<<<<<<< HEAD
     // Room DB
     implementation "android.arch.persistence.room:runtime:1.1.0-beta2"
     implementation "android.arch.persistence.room:rxjava2:1.1.0-beta2"
@@ -60,17 +59,12 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:2.1.0"
     implementation "io.reactivex.rxjava2:rxandroid:2.0.1"
 
-<<<<<<< HEAD
+
     // MeterialSearchView
     implementation 'com.miguelcatalan:materialsearchview:1.4.0'
 
     // Algolia
     implementation 'com.algolia:algoliasearch-android:3.+'
-
-=======
->>>>>>> parent of 1b9cd37... Tab Hot vs Tab Lich su
-=======
->>>>>>> parent of 0706de8... Chuc nang tim kiem
 
 }
 
