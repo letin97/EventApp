@@ -59,14 +59,10 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:2.1.0"
     implementation "io.reactivex.rxjava2:rxandroid:2.0.1"
 
-
     // MeterialSearchView
     implementation 'com.miguelcatalan:materialsearchview:1.4.0'
 
     // Algolia
     implementation 'com.algolia:algoliasearch-android:3.+'
-
 }
-
-
 apply plugin: 'com.google.gms.google-services'
