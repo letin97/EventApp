@@ -82,8 +82,9 @@ public class NewsDetailActivity extends AppCompatActivity {
         }
 
         collapsingToolbarLayout = findViewById(R.id.collapsing);
-        collapsingToolbarLayout.setTitle("");
         appBarLayout = findViewById(R.id.app_bar_layout);
+        collapsingToolbarLayout.setTitle("");
+
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = true;
             int scrollRange = -1;
