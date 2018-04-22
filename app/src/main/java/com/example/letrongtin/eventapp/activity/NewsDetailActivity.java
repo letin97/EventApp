@@ -7,6 +7,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -15,6 +16,9 @@ import android.widget.TextView;
 
 import com.example.letrongtin.eventapp.Common.Common;
 import com.example.letrongtin.eventapp.R;
+import com.example.letrongtin.eventapp.database.DataSource.RecentRepository;
+import com.example.letrongtin.eventapp.database.LocalDatabase.LocalDatabase;
+import com.example.letrongtin.eventapp.database.Recent;
 import com.example.letrongtin.eventapp.model.Item;
 import com.example.letrongtin.eventapp.model.News;
 import com.example.letrongtin.eventapp.model.NewsItem;
@@ -26,7 +30,19 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 public class NewsDetailActivity extends AppCompatActivity {
 
@@ -45,6 +61,10 @@ public class NewsDetailActivity extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference news_item;
     DatabaseReference itemRef;
+
+    // Room Database
+    CompositeDisposable compositeDisposable;
+    RecentRepository recentRepository;
 
     ArrayList<NewsItem> newsItemArrayList;
 
@@ -96,9 +116,15 @@ public class NewsDetailActivity extends AppCompatActivity {
 
         news = new News();
 
+        // Firebase
         database = FirebaseDatabase.getInstance();
         news_item = database.getReference(Common.STR_NEWS_ITEM);
         itemRef = FirebaseDatabase.getInstance().getReference(Common.STR_ITEM);
+
+        // Room Database
+        compositeDisposable = new CompositeDisposable();
+        LocalDatabase localDatabase = LocalDatabase.getInstance(NewsDetailActivity.this);
+        recentRepository = RecentRepository.getInstance(localDatabase.recentDAO());
 
 
         newsItemArrayList = new ArrayList<>();
@@ -145,6 +171,7 @@ public class NewsDetailActivity extends AppCompatActivity {
                                 btnItemWeb.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
+                                        addToRecent(item);
                                         Intent web = new Intent(NewsDetailActivity.this, NewsWebActivity.class);
                                         web.putExtra("link", item.getLink());
                                         startActivity(web);
@@ -203,5 +230,46 @@ public class NewsDetailActivity extends AppCompatActivity {
             finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void addToRecent(final Item item){
+        Disposable disposable = Observable.create(new ObservableOnSubscribe<Object>() {
+            @Override
+            public void subscribe(ObservableEmitter<Object> e) {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+                String date = dateFormat.format(new Date());
+
+                Recent recent = new Recent(item.getName(), item.getImageLink(), item.getLink(), date, false);
+
+                recentRepository.insertRecent(recent);
+                e.onComplete();
+
+            }
+        }).observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Consumer<Object>() {
+                    @Override
+                    public void accept(Object o) {
+
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Log.e("ERROR", throwable.getMessage());
+                    }
+                }, new Action() {
+                    @Override
+                    public void run() throws Exception {
+
+                    }
+                });
+
+        compositeDisposable.add(disposable);
+    }
+
+    @Override
+    protected void onDestroy() {
+        compositeDisposable.clear();
+        super.onDestroy();
     }
 }

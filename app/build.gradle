@@ -64,5 +64,10 @@ dependencies {
 
     // Algolia
     implementation 'com.algolia:algoliasearch-android:3.+'
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> parent of e199a06... Fix Tab Hot va Tab lich su
 }
 apply plugin: 'com.google.gms.google-services'
