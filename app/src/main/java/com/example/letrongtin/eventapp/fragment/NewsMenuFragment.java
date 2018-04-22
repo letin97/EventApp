@@ -2,10 +2,10 @@ package com.example.letrongtin.eventapp.fragment;
 
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.letrongtin.eventapp.Common.Common;
+import com.example.letrongtin.eventapp.Interface.Communicator;
 import com.example.letrongtin.eventapp.Interface.ItemClickListener;
 import com.example.letrongtin.eventapp.R;
 import com.example.letrongtin.eventapp.activity.NewsDetailActivity;
@@ -38,7 +39,14 @@ import dmax.dialog.SpotsDialog;
  */
 public class NewsMenuFragment extends Fragment {
 
-    SwipeRefreshLayout swipeRefreshLayout;
+    private static NewsMenuFragment instance;
+
+    public static NewsMenuFragment getInstance() {
+        if (instance == null){
+            instance = new NewsMenuFragment();
+        }
+        return instance;
+    }
 
     KenBurnsView topImage;
 
@@ -61,6 +69,9 @@ public class NewsMenuFragment extends Fragment {
     FirebaseRecyclerOptions<News> options;
     FirebaseRecyclerAdapter<News, NewsViewHolder> adapter;
 
+    // Communnicator
+    Communicator communicator;
+
 
     public NewsMenuFragment() {
         database = FirebaseDatabase.getInstance();
@@ -70,11 +81,11 @@ public class NewsMenuFragment extends Fragment {
         queryTop.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                lastNews = dataSnapshot.getValue(News.class);
-                Picasso.get()
-                        .load(lastNews.getImageLink())
-                        .into(topImage);
-                txtTopTitle.setText(lastNews.getTitle());
+//                lastNews = dataSnapshot.getValue(News.class);
+//                Picasso.get()
+//                        .load(lastNews.getImageLink())
+//                        .into(topImage);
+//                txtTopTitle.setText(lastNews.getTitle());
             }
 
             @Override
@@ -120,6 +131,9 @@ public class NewsMenuFragment extends Fragment {
 
                 holder.txtNewsTitle.setText(model.getTitle());
 
+                // communicator
+                communicator.senData(model.getTitle());
+
                 alertDialog.dismiss();
 
                 holder.setItemClickListener(new ItemClickListener() {
@@ -149,7 +163,6 @@ public class NewsMenuFragment extends Fragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_news_menu, container, false);
 
-        swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
         topImage = view.findViewById(R.id.top_image);
         diagonalLayout = view.findViewById(R.id.diagonal_layout);
         alertDialog = new SpotsDialog(getContext());
@@ -193,4 +206,9 @@ public class NewsMenuFragment extends Fragment {
             adapter.startListening();
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        communicator = (Communicator) context;
+    }
 }
