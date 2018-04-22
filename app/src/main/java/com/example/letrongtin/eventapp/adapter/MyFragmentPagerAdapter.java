@@ -13,11 +13,11 @@ import com.example.letrongtin.eventapp.fragment.EventDateFragment;
  * Created by Le Trong Tin on 3/27/2018.
  */
 
-public class EventDateFragmentPagerAdapter extends FragmentPagerAdapter {
+public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
 
     Context context;
 
-    public EventDateFragmentPagerAdapter(FragmentManager fm, Context context) {
+    public MyFragmentPagerAdapter(FragmentManager fm, Context context) {
         super(fm);
         this.context = context;
     }

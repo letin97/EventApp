@@ -5,6 +5,7 @@
       <map>
         <entry key="vectorWizard">
           <value>
+<<<<<<< HEAD
             <PersistentState>
               <option name="children">
                 <map>
@@ -38,6 +39,9 @@
                 </map>
               </option>
             </PersistentState>
+=======
+            <PersistentState />
+>>>>>>> parent of 1b9cd37... Tab Hot vs Tab Lich su
           </value>
         </entry>
       </map>

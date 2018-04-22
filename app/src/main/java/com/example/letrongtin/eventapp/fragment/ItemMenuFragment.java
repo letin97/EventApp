@@ -33,7 +33,7 @@ public class ItemMenuFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_item_menu, container, false);
         tabLayout = view.findViewById(R.id.tab_layout);
         viewPager = view.findViewById(R.id.view_pager);
-        ItemFragmentPagerAdapter adapter = new ItemFragmentPagerAdapter(getChildFragmentManager(), getContext());
+        ItemFragmentPagerAdapter adapter = new ItemFragmentPagerAdapter(getChildFragmentManager());
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
 

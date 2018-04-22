@@ -2,19 +2,21 @@ package com.example.letrongtin.eventapp.viewholder;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.letrongtin.eventapp.Interface.ItemClickListener;
 import com.example.letrongtin.eventapp.R;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-    public ImageView imgItem;
+    public CircleImageView imgItem;
 
     public TextView txtItemName;
 
-    //public ImageButton imgBtnWebItem;
+    public ImageButton imgBtnWebItem;
 
     ItemClickListener listener;
 
@@ -27,7 +29,7 @@ public class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnCl
 
         imgItem = itemView.findViewById(R.id.img_item);
         txtItemName = itemView.findViewById(R.id.txt_item_name);
-        //imgBtnWebItem = imgItem.findViewById(R.id.img_btn_web_item);
+        imgBtnWebItem = imgItem.findViewById(R.id.img_btn_web_item);
 
         itemView.setOnClickListener(this);
 

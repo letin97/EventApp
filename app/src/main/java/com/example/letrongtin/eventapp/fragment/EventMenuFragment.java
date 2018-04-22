@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.letrongtin.eventapp.R;
-import com.example.letrongtin.eventapp.adapter.EventDateFragmentPagerAdapter;
+import com.example.letrongtin.eventapp.adapter.MyFragmentPagerAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,7 +33,7 @@ public class EventMenuFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_event_menu, container, false);
         tabLayout = view.findViewById(R.id.tab_layout);
         viewPager = view.findViewById(R.id.view_pager);
-        EventDateFragmentPagerAdapter adapter = new EventDateFragmentPagerAdapter(getChildFragmentManager(), getContext());
+        MyFragmentPagerAdapter adapter = new MyFragmentPagerAdapter(getChildFragmentManager(), getContext());
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
         return view;

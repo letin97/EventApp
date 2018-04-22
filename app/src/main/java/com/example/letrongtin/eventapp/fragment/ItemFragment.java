@@ -1,25 +1,18 @@
 package com.example.letrongtin.eventapp.fragment;
 
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.letrongtin.eventapp.Common.Common;
 import com.example.letrongtin.eventapp.Interface.ItemClickListener;
 import com.example.letrongtin.eventapp.R;
-import com.example.letrongtin.eventapp.activity.NewsWebActivity;
-import com.example.letrongtin.eventapp.database.DataSource.RecentRepository;
-import com.example.letrongtin.eventapp.database.LocalDatabase.LocalDatabase;
-import com.example.letrongtin.eventapp.database.Recent;
 import com.example.letrongtin.eventapp.model.Item;
 import com.example.letrongtin.eventapp.viewholder.ItemViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -30,30 +23,16 @@ import com.google.firebase.database.Query;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
-
 /**
  * A simple {@link Fragment} subclass.
  */
-@SuppressLint("ValidFragment")
 public class ItemFragment extends Fragment {
 
     private static ItemFragment instance;
 
-    public static ItemFragment getInstance(Context context) {
+    public static ItemFragment getInstance() {
         if (instance == null){
-            instance = new ItemFragment(context);
+            instance = new ItemFragment();
         }
         return instance;
     }
@@ -65,16 +44,10 @@ public class ItemFragment extends Fragment {
     FirebaseRecyclerAdapter<Item, ItemViewHolder> adapter;
     Query query;
 
-    // Room Database
-    CompositeDisposable compositeDisposable;
-    RecentRepository recentRepository;
-
     // RecyclerView
     RecyclerView recyclerView;
 
-    public ItemFragment(Context context) {
-
-        // Firebase
+    public ItemFragment() {
         database = FirebaseDatabase.getInstance();
         item_db = database.getReference(Common.STR_ITEM);
         query = item_db.orderByChild("name");
@@ -83,7 +56,7 @@ public class ItemFragment extends Fragment {
                 .build();
         adapter = new FirebaseRecyclerAdapter<Item, ItemViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(final ItemViewHolder holder, int position, final Item model) {
+            protected void onBindViewHolder(ItemViewHolder holder, int position, Item model) {
                 Picasso.get()
                         .load(model.getImageLink())
                         .into(holder.imgItem, new Callback() {
@@ -101,10 +74,7 @@ public class ItemFragment extends Fragment {
                 holder.setItemClickListener(new ItemClickListener() {
                     @Override
                     public void onClick(View view, int position) {
-                        addToRecent(model);
-                        Intent web = new Intent(getContext(), NewsWebActivity.class);
-                        web.putExtra("link", model.getLink());
-                        startActivity(web);
+                        Toast.makeText(getContext(), "Click", Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -112,15 +82,10 @@ public class ItemFragment extends Fragment {
 
             @Override
             public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_card, parent,false);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_row, parent,false);
                 return new ItemViewHolder(view);
             }
         };
-
-        // Room Database
-        compositeDisposable = new CompositeDisposable();
-        LocalDatabase localDatabase = LocalDatabase.getInstance(context);
-        recentRepository = RecentRepository.getInstance(localDatabase.recentDAO());
 
     }
 
@@ -133,47 +98,12 @@ public class ItemFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
-        recyclerView.setLayoutManager(gridLayoutManager);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
         adapter.startListening();
         recyclerView.setAdapter(adapter);
 
         return view;
-    }
-
-    private void addToRecent(final Item item){
-        Disposable disposable = Observable.create(new ObservableOnSubscribe<Object>() {
-            @Override
-            public void subscribe(ObservableEmitter<Object> e) {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
-                String date = dateFormat.format(new Date());
-
-                Recent recent = new Recent(item.getName(), item.getImageLink(),item.getLink(), date, false);
-
-                recentRepository.insertRecent(recent);
-                e.onComplete();
-
-            }
-        }).observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Consumer<Object>() {
-                    @Override
-                    public void accept(Object o) {
-
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        Log.e("ERROR", throwable.getMessage());
-                    }
-                }, new Action() {
-                    @Override
-                    public void run() throws Exception {
-
-                    }
-        });
-
-        compositeDisposable.add(disposable);
     }
 
     @Override
@@ -197,9 +127,4 @@ public class ItemFragment extends Fragment {
             adapter.startListening();
     }
 
-    @Override
-    public void onDestroy() {
-        compositeDisposable.clear();
-        super.onDestroy();
-    }
 }
