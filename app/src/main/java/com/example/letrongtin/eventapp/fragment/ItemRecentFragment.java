@@ -51,7 +51,7 @@ public class ItemRecentFragment extends Fragment implements ItemRecentAdapterCli
     List<Recent> recentList;
     ItemRecentAdapter adapter;
 
-    // Room Databasevs
+    // Room Database
     CompositeDisposable compositeDisposable;
     RecentRepository recentRepository;
 

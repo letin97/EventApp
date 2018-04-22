@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 public class News implements Serializable {
 
-    private String id;
     private String source;
     private String title;
     private String description;
@@ -16,16 +15,6 @@ public class News implements Serializable {
     }
 
     public News(String source, String title, String description, String link, String imageLink, String pubDate) {
-        this.source = source;
-        this.title = title;
-        this.description = description;
-        this.link = link;
-        this.imageLink = imageLink;
-        this.pubDate = pubDate;
-    }
-
-    public News(String id, String source, String title, String description, String link, String imageLink, String pubDate) {
-        this.id = id;
         this.source = source;
         this.title = title;
         this.description = description;
@@ -80,13 +69,5 @@ public class News implements Serializable {
 
     public void setPubDate(String pubDate) {
         this.pubDate = pubDate;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 }
