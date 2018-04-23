@@ -73,6 +73,7 @@ public class HomeActivity extends AppCompatActivity
         });
 
 
+
         loadFragment(new NewsMenuFragment());
 
     }
