@@ -17,6 +17,15 @@ import com.example.letrongtin.eventapp.adapter.EventDateFragmentPagerAdapter;
  */
 public class EventMenuFragment extends Fragment {
 
+    private static EventMenuFragment instance;
+
+    public static EventMenuFragment getInstance() {
+        if (instance == null){
+            instance = new EventMenuFragment();
+        }
+        return instance;
+    }
+
     TabLayout tabLayout;
     ViewPager viewPager;
 

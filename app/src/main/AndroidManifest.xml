@@ -11,6 +11,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/FullScreenTheme">
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
+        <provider android:authorities="com.facebook.app.FacebookContentProvider853773028142222"
+            android:name="com.facebook.FacebookContentProvider"
+            android:exported="true"/>
+
         <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

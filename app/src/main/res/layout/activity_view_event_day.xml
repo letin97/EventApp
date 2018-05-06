@@ -79,7 +79,7 @@
         </android.support.v4.widget.NestedScrollView>
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fabWallpaper"
+            android:id="@+id/fab_event_day_news"
             android:src="@drawable/ic_menu_send"
             app:elevation="6dp"
             app:pressedTranslationZ="12dp"

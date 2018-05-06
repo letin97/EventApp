@@ -63,7 +63,7 @@ public class CalendarAdapter extends BaseAdapter {
         this.context = context;
         monthCalendar.set(GregorianCalendar.DAY_OF_MONTH, 1);
 
-        this.dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        this.dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
         currentDateString = dateFormat.format(selectedDate.getTime());
         refreshDays();
 
@@ -118,7 +118,7 @@ public class CalendarAdapter extends BaseAdapter {
             holder.txtDate.setTextColor(Color.GRAY);
             holder.txtDate.setClickable(false);
             holder.txtDate.setFocusable(false);
-        } else if (Integer.parseInt(date) < 7 && position > 28){
+        } else if (Integer.parseInt(date) < 14 && position > 28){
             holder.txtDate.setTextColor(Color.GRAY);
             holder.txtDate.setClickable(false);
             holder.txtDate.setFocusable(false);
@@ -170,16 +170,22 @@ public class CalendarAdapter extends BaseAdapter {
 
         calendarString.clear();
 
+        dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+
         previousMonthCalendar = (GregorianCalendar) monthCalendar.clone();
 
         // lấy ngày trong tuần
         firstDate = monthCalendar.get(GregorianCalendar.DAY_OF_WEEK);
 
         // lấy số tuần của tháng hiển thị
-        int weekOfMonth = monthCalendar.getActualMaximum(GregorianCalendar.WEEK_OF_MONTH);
+        //int weekOfMonth = monthCalendar.getActualMaximum(GregorianCalendar.WEEK_OF_MONTH);
+
+        //int weeks_corr = (int)((firstDate+this.monthCalendar.getActualMaximum(Calendar.DAY_OF_MONTH)+5)/7);
 
         // lấy số hàng tối đa cho gridview
-        int mnthlength = weekOfMonth * 7;
+        //int mnthlength = weeks_corr * 7;
+        int mnthlength = 6*7;
+
         int dayOfPreMoth = getMaxDatePreviousMonth();                           // số ngày của tháng trước
 
         int dayOffset = dayOfPreMoth - (firstDate - 1);          // ngày bù của tháng hiển thị

@@ -32,6 +32,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import dmax.dialog.SpotsDialog;
 
 /**
@@ -109,7 +114,7 @@ public class NewsMenuFragment extends Fragment {
             }
         });
 
-        query = news.orderByChild("pubDate").startAt(0);
+        query = news.orderByChild("pubDate");
 
 
         options = new FirebaseRecyclerOptions.Builder<News>()
@@ -130,6 +135,17 @@ public class NewsMenuFragment extends Fragment {
                         .into(holder.imgNews);
 
                 holder.txtNewsTitle.setText(model.getTitle());
+
+
+                SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
+                try {
+                    Date date = sdf.parse(model.getPubDate());
+                    if (date != null)
+                        holder.txtNewsTime.setReferenceTime(date.getTime());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
 
                 // communicator
                 communicator.senData(model.getTitle());

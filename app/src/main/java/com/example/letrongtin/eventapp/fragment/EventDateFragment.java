@@ -101,7 +101,7 @@ public class EventDateFragment extends Fragment {
                     public void onClick(View view, int position) {
                         Intent intent = new Intent(getActivity(), ViewEventDayActivity.class);
                         Common.EVENT_DAY_SELECT = model;
-                        startActivity(intent);
+                        getActivity().startActivityForResult(intent, Common.SEARCH_REQUEST_CODE);
                     }
                 });
             }

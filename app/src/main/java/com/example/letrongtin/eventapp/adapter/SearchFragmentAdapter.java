@@ -11,7 +11,11 @@ import com.example.letrongtin.eventapp.model.News;
 import com.example.letrongtin.eventapp.viewholder.NewsViewHolder;
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class SearchFragmentAdapter extends RecyclerView.Adapter<NewsViewHolder> {
 
@@ -35,6 +39,15 @@ public class SearchFragmentAdapter extends RecyclerView.Adapter<NewsViewHolder> 
                 .load(newsList.get(position).getImageLink())
                 .into(holder.imgNews);
         holder.txtNewsTitle.setText(newsList.get(position).getTitle());
+
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
+        try {
+            Date date = sdf.parse(newsList.get(position).getPubDate());
+            if (date != null)
+                holder.txtNewsTime.setReferenceTime(date.getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

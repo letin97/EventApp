@@ -1,5 +1,8 @@
 package com.example.letrongtin.eventapp.activity;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -7,9 +10,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.letrongtin.eventapp.Common.Common;
 import com.example.letrongtin.eventapp.Interface.Communicator;
 import com.example.letrongtin.eventapp.R;
 import com.example.letrongtin.eventapp.fragment.EventMenuFragment;
@@ -34,6 +39,8 @@ public class HomeActivity extends AppCompatActivity
 
     String dataSearch ="";
 
+    int indexSelect = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +55,9 @@ public class HomeActivity extends AppCompatActivity
         listTitle = new ArrayList<>();
 
         searchView = findViewById(R.id.search_view);
+
+        searchView.setHint("Tìm kiếm");
+        searchView.setHintTextColor(Color.GRAY);
 
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
@@ -72,9 +82,15 @@ public class HomeActivity extends AppCompatActivity
             }
         });
 
-
-
         loadFragment(new NewsMenuFragment());
+
+//        if (getIntent() != null){
+//            String key = getIntent().getStringExtra("search");
+//            if (key != null){
+//                Log.d("AAA",key + "key" );
+//
+//            }
+//        }
 
     }
 
@@ -90,19 +106,27 @@ public class HomeActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
+        if (searchView.isSearchOpen()) {
+            searchView.closeSearch();
+        }
+
         Fragment fragment = null;
 
         switch (item.getItemId()){
             case R.id.action_news:
+                indexSelect = 0;
                 fragment = NewsMenuFragment.getInstance();
                 break;
             case R.id.action_event:
-                fragment = new EventMenuFragment();
+                indexSelect = 1;
+                fragment = EventMenuFragment.getInstance();
                 break;
             case R.id.action_item:
-                fragment = new ItemMenuFragment();
+                indexSelect = 2;
+                fragment = ItemMenuFragment.getInstance();
                 break;
             default:
+                indexSelect = 0;
                 fragment = NewsMenuFragment.getInstance();
                 break;
         }
@@ -123,4 +147,43 @@ public class HomeActivity extends AppCompatActivity
         list = listTitle.toArray(new String[listTitle.size()]);
         searchView.setSuggestions(list);
     }
+
+    @Override
+    public void onBackPressed() {
+        if (searchView.isSearchOpen()) {
+            searchView.closeSearch();
+        } else {
+            if (indexSelect == 0){
+                Intent homeIntent = new Intent(Intent.ACTION_MAIN);
+                homeIntent.addCategory( Intent.CATEGORY_HOME );
+                homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(homeIntent);
+                super.onBackPressed();
+            } else {
+                navigation.setSelectedItemId(R.id.action_news);
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, NewsMenuFragment.getInstance()).commit();
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == Common.SEARCH_REQUEST_CODE){
+            if (resultCode == Activity.RESULT_OK){
+                Log.d("AAA", data.getStringExtra("search"));
+                dataSearch = data.getStringExtra("search");
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                Fragment newFragment = new SearchFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("search", dataSearch);
+                newFragment.setArguments(bundle);
+                transaction.replace(R.id.frame_layout, newFragment);
+                transaction.addToBackStack(null);
+                transaction.commitAllowingStateLoss();
+                indexSelect = 3;
+            }
+        }
+    }
+
+
 }

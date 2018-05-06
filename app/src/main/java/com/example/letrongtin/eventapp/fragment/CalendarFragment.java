@@ -115,7 +115,7 @@ public class CalendarFragment extends Fragment {
                 if ((gridvalue > 10) && (position < 8)) {
                     setPreviousMonth();
                     refreshCalendar();
-                } else if ((gridvalue < 7) && (position > 28)) {
+                } else if ((gridvalue < 14) && (position > 28)) {
                     setNextMonth();
                     refreshCalendar();
                 }

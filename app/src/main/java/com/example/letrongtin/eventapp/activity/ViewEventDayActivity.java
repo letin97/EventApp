@@ -1,12 +1,16 @@
 package com.example.letrongtin.eventapp.activity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.example.letrongtin.eventapp.Common.Common;
@@ -18,7 +22,7 @@ public class ViewEventDayActivity extends AppCompatActivity {
     CoordinatorLayout rootLayout;
     CollapsingToolbarLayout collapsingToolbarLayout;
     AppBarLayout appBarLayout;
-    //FloatingActionButton fabWeb;
+    FloatingActionButton fabEventDayNews;
     ImageView imgThumb;
 
     @Override
@@ -58,13 +62,28 @@ public class ViewEventDayActivity extends AppCompatActivity {
                 }
             }
         });
-        //fabWeb = findViewById(R.id.fab_web);
+
         imgThumb = findViewById(R.id.img_thumb);
 
 
         Picasso.get()
                 .load(Common.EVENT_DAY_SELECT.getImageLink())
                 .into(imgThumb);
+
+        fabEventDayNews = findViewById(R.id.fab_event_day_news);
+        fabEventDayNews.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Intent intent = new Intent(ViewEventDayActivity.this, HomeActivity.class);
+                //intent.putExtra("search", Common.EVENT_DAY_SELECT.getName());
+                //startActivity(intent);
+                Intent intent = new Intent();
+                intent.putExtra("search",Common.EVENT_DAY_SELECT.getName());
+                setResult(Activity.RESULT_OK,intent);
+                finish();
+
+            }
+        });
 
     }
 

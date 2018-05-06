@@ -1,6 +1,7 @@
 package com.example.letrongtin.eventapp.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.letrongtin.eventapp.Common.Common;
 import com.example.letrongtin.eventapp.R;
@@ -22,6 +24,13 @@ import com.example.letrongtin.eventapp.database.Recent;
 import com.example.letrongtin.eventapp.model.Item;
 import com.example.letrongtin.eventapp.model.News;
 import com.example.letrongtin.eventapp.model.NewsItem;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.share.Sharer;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareDialog;
+import com.github.curioustechizen.ago.RelativeTimeTextView;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,9 +39,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -51,6 +62,7 @@ public class NewsDetailActivity extends AppCompatActivity {
 
     ImageView imgNews, imgItem, imgCircleItem;
     TextView txtNewsTitle, txtNewsDescription, txtItemName, txtItemDescription;
+    RelativeTimeTextView txtNewsTime;
     FloatingActionButton fabWeb;
     Button btnItemWeb;
     News news;
@@ -67,6 +79,12 @@ public class NewsDetailActivity extends AppCompatActivity {
     RecentRepository recentRepository;
 
     ArrayList<NewsItem> newsItemArrayList;
+
+    // Facebook
+    FloatingActionButton shareButton;
+    CallbackManager callbackManager;
+    ShareDialog shareDialog;
+    ShareLinkContent shareLinkContent;
 
 
     @Override
@@ -106,6 +124,7 @@ public class NewsDetailActivity extends AppCompatActivity {
         imgNews = findViewById(R.id.img_news);
         txtNewsTitle = findViewById(R.id.txt_news_title);
         txtNewsDescription = findViewById(R.id.txt_news_description);
+        txtNewsTime = findViewById(R.id.news_time);
         fabWeb = findViewById(R.id.fab_web);
         btnItemWeb = findViewById(R.id.btn_item_web);
 
@@ -141,67 +160,79 @@ public class NewsDetailActivity extends AppCompatActivity {
                 txtNewsTitle.setText(news.getTitle());
                 txtNewsDescription.setText(news.getDescription());
 
+                SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
+                try {
+                    Date date = sdf.parse(news.getPubDate());
+                    if (date != null)
+                        txtNewsTime.setReferenceTime(date.getTime());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
                 String key = getIntent().getStringExtra("key");
 
                 news_item.orderByChild("newskey").equalTo(key).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             NewsItem newsItem = snapshot.getValue(NewsItem.class);
                             newsItemArrayList.add(newsItem);
                         }
 
                         int n = newsItemArrayList.size();
-                        int random = (int) Math.floor(Math.random() * n);
-                        String randomIndex = newsItemArrayList.get(random).getItemkey();
-                        itemRef.orderByKey().equalTo(randomIndex).addChildEventListener(new ChildEventListener() {
-                            @Override
-                            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                                final Item item = dataSnapshot.getValue(Item.class);
-                                txtItemName.setText(item.getName());
-                                Picasso.get()
-                                        .load(item.getImageLink())
-                                        .into(imgItem);
-                                Picasso.get()
-                                        .load(item.getImageLink())
-                                        .into(imgCircleItem);
-                                txtItemDescription.setText(item.getDescription());
+                        if (n != 0) {
+                            int random = (int) Math.floor(Math.random() * n);
+                            String randomIndex = newsItemArrayList.get(random).getItemkey();
+                            itemRef.orderByKey().equalTo(randomIndex).addChildEventListener(new ChildEventListener() {
+                                @Override
+                                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                                    final Item item = dataSnapshot.getValue(Item.class);
+                                    txtItemName.setText(item.getName());
+                                    Picasso.get()
+                                            .load(item.getImageLink())
+                                            .into(imgItem);
+                                    Picasso.get()
+                                            .load(item.getImageLink())
+                                            .into(imgCircleItem);
+                                    txtItemDescription.setText(item.getDescription());
 
-                                btnItemWeb.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        addToRecent(item);
-                                        Intent web = new Intent(NewsDetailActivity.this, NewsWebActivity.class);
-                                        web.putExtra("link", item.getLink());
-                                        startActivity(web);
-                                    }
-                                });
+                                    btnItemWeb.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            addToRecent(item);
+                                            Intent web = new Intent(NewsDetailActivity.this, NewsWebActivity.class);
+                                            web.putExtra("link", item.getLink());
+                                            startActivity(web);
+                                        }
+                                    });
 
-                            }
+                                }
 
-                            @Override
-                            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                                @Override
+                                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
-                            }
+                                }
 
-                            @Override
-                            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                                @Override
+                                public void onChildRemoved(DataSnapshot dataSnapshot) {
 
-                            }
+                                }
 
-                            @Override
-                            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                                @Override
+                                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
-                            }
+                                }
 
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
 
-                            }
-                        });
+                                }
+                            });
 
                         }
+
+                    }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
@@ -222,6 +253,39 @@ public class NewsDetailActivity extends AppCompatActivity {
             }
         });
 
+        shareButton = findViewById(R.id.btn_share_fb);
+        callbackManager = CallbackManager.Factory.create();
+        shareDialog = new ShareDialog(NewsDetailActivity.this);
+        shareDialog.registerCallback(callbackManager, new FacebookCallback<Sharer.Result>() {
+            @Override
+            public void onSuccess(Sharer.Result result) {
+                Toast.makeText(NewsDetailActivity.this, "Chia sẻ thành công", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancel() {
+                Toast.makeText(NewsDetailActivity.this, "Hủy bỏ", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                Toast.makeText(NewsDetailActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        shareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                if (ShareDialog.canShow(ShareLinkContent.class)){
+                    shareLinkContent = new ShareLinkContent.Builder()
+                            .setContentUrl(Uri.parse(news.getLink()))
+                            .build();
+                    shareDialog.show(shareLinkContent);
+                }
+            }
+        });
     }
 
     @Override
