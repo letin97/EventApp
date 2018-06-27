@@ -2,20 +2,21 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@android:color/white"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_mua_xuan"
+    android:id="@+id/root_layout"
     tools:context="com.example.letrongtin.eventapp.fragment.CalendarFragment">
 
 
     <LinearLayout
+        android:layout_marginTop="10dp"
         android:padding="5dp"
-        android:background="#5cc600"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <LinearLayout
-            android:background="@android:color/white"
+            android:background="@android:color/transparent"
             android:orientation="horizontal"
             android:padding="10dp"
             android:layout_width="match_parent"
@@ -27,8 +28,8 @@
 
                 <ImageButton
                     android:id="@+id/imgBtnPrevious"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:background="@drawable/ic_back_40"/>
 
@@ -47,8 +48,9 @@
                     android:layout_marginTop="5dp"
                     android:gravity="center"
                     android:text="January"
+                    android:layout_marginBottom="5dp"
                     android:textColor="@android:color/black"
-                    android:textSize="18sp"
+                    android:textSize="25sp"
                     android:textStyle="bold" />
 
             </FrameLayout>
@@ -59,8 +61,8 @@
 
                 <ImageButton
                     android:id="@+id/imgBtnNext"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:background="@drawable/ic_next_40" />
 
             </FrameLayout>
@@ -81,7 +83,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="Sun"
-                android:textColor="#ffffff" />
+                android:textStyle="bold"
+                android:textColor="#f93b3b" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -89,7 +92,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="Mon"
-                android:textColor="#ffffff" />
+                android:textStyle="bold"
+                android:textColor="#000" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -97,7 +101,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="Tue"
-                android:textColor="#ffffff" />
+                android:textStyle="bold"
+                android:textColor="#000" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -105,7 +110,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="Wed"
-                android:textColor="#ffffff" />
+                android:textStyle="bold"
+                android:textColor="#000" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -113,7 +119,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="Thu"
-                android:textColor="#ffffff" />
+                android:textStyle="bold"
+                android:textColor="#000" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -121,7 +128,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="Fri"
-                android:textColor="#ffffff" />
+                android:textStyle="bold"
+                android:textColor="#000" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -129,7 +137,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="Sat"
-                android:textColor="#ffffff" />
+                android:textStyle="bold"
+                android:textColor="#000" />
 
         </TableRow>
 
@@ -146,7 +155,7 @@
             android:numColumns="7"
             android:padding="2dp"
             android:gravity="center"
-            android:background="#0013b721"
+            android:background="@android:color/transparent"
             android:cacheColorHint="#80fffb0e"
             android:textAlignment="center"
             android:stretchMode="columnWidth"

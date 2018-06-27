@@ -6,10 +6,11 @@ import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
 import com.example.letrongtin.eventapp.database.Recent;
+import com.example.letrongtin.eventapp.database.TypeNews;
 
 import static com.example.letrongtin.eventapp.database.LocalDatabase.LocalDatabase.DATABASE_VERSION;
 
-@Database(entities = Recent.class, version = DATABASE_VERSION)
+@Database(entities = {Recent.class, TypeNews.class}, version = DATABASE_VERSION)
 public abstract class LocalDatabase extends RoomDatabase {
 
     public static final int DATABASE_VERSION = 1;
@@ -17,6 +18,8 @@ public abstract class LocalDatabase extends RoomDatabase {
     public static final String DATABASE_NAME = "EventApp";
 
     public abstract RecentDAO recentDAO();
+
+    public abstract TypeNewsDAO typeNewsDAO();
 
     private static LocalDatabase instance;
 

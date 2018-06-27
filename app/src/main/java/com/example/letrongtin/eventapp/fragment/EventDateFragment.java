@@ -27,6 +27,7 @@ import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -56,6 +57,9 @@ public class EventDateFragment extends Fragment {
     RecyclerView recyclerView;
 
 
+    int minCountDown = 30;
+    int positionDate = 0;
+
     public EventDateFragment() {
         database = FirebaseDatabase.getInstance();
         eventDate = database.getReference(Common.STR_EVENT_DATE);
@@ -66,8 +70,10 @@ public class EventDateFragment extends Fragment {
         adapter = new FirebaseRecyclerAdapter<EventDate, EventDateViewHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull final EventDateViewHolder holder, int position, @NonNull final EventDate model) {
+
                 Picasso.get()
                         .load(model.getImageLink())
+                        .fit()
                         .into(holder.imgBackground, new Callback() {
                             @Override
                             public void onSuccess() {
@@ -81,17 +87,22 @@ public class EventDateFragment extends Fragment {
                         });
                 holder.txtDateCountdown.setText("");
                 holder.txtNameDate.setText(model.getName());
-                holder.txtDate.setText(model.getDate());
+                String dateString = Calendar.getInstance().get(Calendar.YEAR) + "-" + model.getDate();
+                holder.txtDate.setText(dateString);
+
 
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 try {
-                    Date date = dateFormat.parse(model.getDate());
+                    Date date = dateFormat.parse(dateString);
                     Date currentDate = new Date();
                     if (!currentDate.after(date)){
                         long diff = date.getTime() - currentDate.getTime();
                         int day = (int) (diff / (24*60*60*1000));
+                        positionDate = position;
                         holder.txtDateCountdown.setText("" + String.format("%02d", day));
+
                     }
+
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -126,6 +137,8 @@ public class EventDateFragment extends Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
         adapter.startListening();
         recyclerView.setAdapter(adapter);
+        //recyclerView.smoothScrollToPosition();
+
         return view;
     }
 

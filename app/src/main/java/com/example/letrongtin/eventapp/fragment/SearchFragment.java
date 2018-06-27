@@ -1,6 +1,8 @@
 package com.example.letrongtin.eventapp.fragment;
 
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -29,6 +31,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
+@SuppressLint("ValidFragment")
 public class SearchFragment extends Fragment {
 
     // RecyclerView
@@ -37,13 +40,15 @@ public class SearchFragment extends Fragment {
 
     // Word Search
     String str_search ="";
+    Context context;
 
     List<News> newsList;
     SearchFragmentAdapter adapter;
 
-    public SearchFragment() {
+    public SearchFragment(Context context) {
         newsList = new ArrayList<>();
-        adapter = new SearchFragmentAdapter(newsList, getContext());
+        this.context = context;
+        adapter = new SearchFragmentAdapter(newsList, context);
     }
 
 
@@ -81,8 +86,9 @@ public class SearchFragment extends Fragment {
                                  String description = object.getString("description");
                                  String link = object.getString("link");
                                  String imageLink = object.getString("imageLink");
+                                 String type = object.getString("type");
                                  String pubDate = object.getString("pubDate");
-                                 newsList.add(new News(objectID, source, title, description, link, imageLink, pubDate));
+                                 newsList.add(new News(objectID, source, type, title, description, link, imageLink, pubDate));
                                  adapter.notifyDataSetChanged();
                              }
                          }

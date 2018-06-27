@@ -48,4 +48,15 @@ public class RecentRepository implements RecentDAO{
         recentDAO.deleteAllRecent();
     }
 
+    @Override
+    public Recent getRecentByImageLink(String imageLink) {
+        return recentDAO.getRecentByImageLink(imageLink);
+    }
+
+    @Override
+    public void deleteRecentByName(String name) {
+        recentDAO.deleteRecentByName(name);
+    }
+
+
 }

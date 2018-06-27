@@ -14,4 +14,8 @@
         android:icon="@drawable/ic_box_24"
         android:title="Sản phẩm"/>
 
+    <item android:id="@+id/action_config"
+        android:icon="@drawable/ic_view_list_black_24dp"
+        android:title="Tùy chỉnh"/>
+
 </menu>

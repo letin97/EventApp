@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.letrongtin.eventapp.Common.Common;
@@ -44,6 +45,7 @@ public class CalendarFragment extends Fragment {
     private ArrayList<EventDate> eventDates;
     DatabaseReference eventDateDB;
 
+    private LinearLayout rootLayout;
     public GregorianCalendar monthCalendar;
     private CalendarAdapter adapter;
     private TextView txtMonth;
@@ -68,7 +70,7 @@ public class CalendarFragment extends Fragment {
 
 
         //cal_month_copy = (GregorianCalendar) cal_month.clone();
-
+        rootLayout = view.findViewById(R.id.root_layout);
 
         txtMonth = view.findViewById(R.id.txtMoth);
         txtMonth.setText(android.text.format.DateFormat.format("MMMM yyyy", monthCalendar));
@@ -95,6 +97,30 @@ public class CalendarFragment extends Fragment {
             }
         });
 
+        switch (monthCalendar.get(GregorianCalendar.MONTH))
+        {
+            case GregorianCalendar.JANUARY:
+            case GregorianCalendar.FEBRUARY:
+            case GregorianCalendar.MARCH:
+                rootLayout.setBackgroundResource(R.drawable.bg_mua_xuan);
+                break;
+            case GregorianCalendar.APRIL:
+            case GregorianCalendar.MAY:
+            case GregorianCalendar.JUNE:
+                rootLayout.setBackgroundResource(R.drawable.bg_mua_ha);
+                break;
+            case GregorianCalendar.JULY:
+            case GregorianCalendar.AUGUST:
+            case GregorianCalendar.SEPTEMBER:
+                rootLayout.setBackgroundResource(R.drawable.bg_mua_thu);
+                break;
+            case GregorianCalendar.OCTOBER:
+            case GregorianCalendar.NOVEMBER:
+            case GregorianCalendar.DECEMBER:
+                rootLayout.setBackgroundResource(R.drawable.bg_mua_dong);
+                break;
+        }
+
 
 
         gvCalendar = view.findViewById(R.id.gvCalendar);
@@ -115,6 +141,7 @@ public class CalendarFragment extends Fragment {
                 if ((gridvalue > 10) && (position < 8)) {
                     setPreviousMonth();
                     refreshCalendar();
+
                 } else if ((gridvalue < 14) && (position > 28)) {
                     setNextMonth();
                     refreshCalendar();
@@ -170,6 +197,30 @@ public class CalendarFragment extends Fragment {
                     monthCalendar.get(GregorianCalendar.MONTH) + 1);
         }
 
+        switch (monthCalendar.get(GregorianCalendar.MONTH))
+        {
+            case GregorianCalendar.JANUARY:
+            case GregorianCalendar.FEBRUARY:
+            case GregorianCalendar.MARCH:
+                rootLayout.setBackgroundResource(R.drawable.bg_mua_xuan);
+                break;
+            case GregorianCalendar.APRIL:
+            case GregorianCalendar.MAY:
+            case GregorianCalendar.JUNE:
+                rootLayout.setBackgroundResource(R.drawable.bg_mua_ha);
+                break;
+            case GregorianCalendar.JULY:
+            case GregorianCalendar.AUGUST:
+            case GregorianCalendar.SEPTEMBER:
+                rootLayout.setBackgroundResource(R.drawable.bg_mua_thu);
+                break;
+            case GregorianCalendar.OCTOBER:
+            case GregorianCalendar.NOVEMBER:
+            case GregorianCalendar.DECEMBER:
+                rootLayout.setBackgroundResource(R.drawable.bg_mua_dong);
+                break;
+        }
+
     }
 
     protected void setPreviousMonth() {
@@ -180,6 +231,30 @@ public class CalendarFragment extends Fragment {
         } else {
             monthCalendar.set(GregorianCalendar.MONTH,
                     monthCalendar.get(GregorianCalendar.MONTH) - 1);
+        }
+
+        switch (monthCalendar.get(GregorianCalendar.MONTH))
+        {
+            case GregorianCalendar.JANUARY:
+            case GregorianCalendar.FEBRUARY:
+            case GregorianCalendar.MARCH:
+                rootLayout.setBackgroundResource(R.drawable.bg_mua_xuan);
+                break;
+            case GregorianCalendar.APRIL:
+            case GregorianCalendar.MAY:
+            case GregorianCalendar.JUNE:
+                rootLayout.setBackgroundResource(R.drawable.bg_mua_ha);
+                break;
+            case GregorianCalendar.JULY:
+            case GregorianCalendar.AUGUST:
+            case GregorianCalendar.SEPTEMBER:
+                rootLayout.setBackgroundResource(R.drawable.bg_mua_thu);
+                break;
+            case GregorianCalendar.OCTOBER:
+            case GregorianCalendar.NOVEMBER:
+            case GregorianCalendar.DECEMBER:
+                rootLayout.setBackgroundResource(R.drawable.bg_mua_dong);
+                break;
         }
 
     }

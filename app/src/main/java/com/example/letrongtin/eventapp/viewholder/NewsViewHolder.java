@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import com.example.letrongtin.eventapp.Interface.ItemClickListener;
 import com.example.letrongtin.eventapp.R;
+import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.github.curioustechizen.ago.RelativeTimeTextView;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -17,6 +18,8 @@ public class NewsViewHolder extends RecyclerView.ViewHolder implements View.OnCl
     public TextView txtNewsTitle;
 
     public RelativeTimeTextView txtNewsTime;
+
+    public KenBurnsView topImage;
 
     ItemClickListener listener;
 
@@ -34,8 +37,19 @@ public class NewsViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         itemView.setOnClickListener(this);
     }
 
+    public NewsViewHolder(View itemView, boolean header) {
+        super(itemView);
+
+        topImage = itemView.findViewById(R.id.img_news);
+        txtNewsTitle = itemView.findViewById(R.id.txt_news_title);
+        //txtNewsTime = itemView.findViewById(R.id.news_time);
+
+        itemView.setOnClickListener(this);
+    }
+
     @Override
     public void onClick(View v) {
-        listener.onClick(v, getAdapterPosition());
+        //listener.onClick(v, getAdapterPosition());
     }
 }
+

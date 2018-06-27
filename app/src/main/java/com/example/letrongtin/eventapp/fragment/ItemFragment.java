@@ -4,6 +4,7 @@ package com.example.letrongtin.eventapp.fragment;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -72,6 +73,8 @@ public class ItemFragment extends Fragment {
     // RecyclerView
     RecyclerView recyclerView;
 
+    boolean isFavorite = false;
+
     public ItemFragment(Context context) {
 
         // Firebase
@@ -86,6 +89,7 @@ public class ItemFragment extends Fragment {
             protected void onBindViewHolder(final ItemViewHolder holder, int position, final Item model) {
                 Picasso.get()
                         .load(model.getImageLink())
+                        .fit()
                         .into(holder.imgItem, new Callback() {
                             @Override
                             public void onSuccess() {
@@ -101,10 +105,56 @@ public class ItemFragment extends Fragment {
                 holder.setItemClickListener(new ItemClickListener() {
                     @Override
                     public void onClick(View view, int position) {
-                        addToRecent(model);
                         Intent web = new Intent(getContext(), NewsWebActivity.class);
                         web.putExtra("link", model.getLink());
                         startActivity(web);
+                    }
+                });
+
+                Drawable myDrawable = getResources().getDrawable(R.drawable.ic_star_fill);
+
+                switch (model.getStar()){
+                    case 1:
+                    case 2:
+                        holder.star1.setImageDrawable(myDrawable);
+                        holder.star2.setImageDrawable(myDrawable);
+                        break;
+                    case 3:
+                        holder.star1.setImageDrawable(myDrawable);
+                        holder.star2.setImageDrawable(myDrawable);
+                        holder.star3.setImageDrawable(myDrawable);
+                        break;
+                    case 4:
+                        holder.star1.setImageDrawable(myDrawable);
+                        holder.star2.setImageDrawable(myDrawable);
+                        holder.star3.setImageDrawable(myDrawable);
+                        holder.star4.setImageDrawable(myDrawable);
+                        break;
+                    case 5:
+                        holder.star1.setImageDrawable(myDrawable);
+                        holder.star2.setImageDrawable(myDrawable);
+                        holder.star3.setImageDrawable(myDrawable);
+                        holder.star4.setImageDrawable(myDrawable);
+                        holder.star5.setImageDrawable(myDrawable);
+                        break;
+                }
+
+                checkItemFavorite(holder, model.getImageLink());
+
+                holder.imgLove.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (isFavorite){
+                            isFavorite = false;
+                            deleteItemRecent(model);
+                            holder.imgLove.setImageDrawable(getResources().getDrawable(R.drawable.ic_love));
+
+                        }else {
+                            isFavorite = true;
+                            addToRecent(model);
+                            holder.imgLove.setImageDrawable(getResources().getDrawable(R.drawable.ic_love_fill));
+
+                        }
                     }
                 });
 
@@ -173,6 +223,71 @@ public class ItemFragment extends Fragment {
                     }
         });
 
+        compositeDisposable.add(disposable);
+    }
+
+    private void checkItemFavorite(final ItemViewHolder holder, final String imageLinkR) {
+        Disposable disposable = Observable.create(new ObservableOnSubscribe<Object>() {
+            @Override
+            public void subscribe(ObservableEmitter<Object> e) throws Exception {
+                Recent recent = recentRepository.getRecentByImageLink(imageLinkR);
+
+                if (recent!=null){
+                    isFavorite = true;
+                    holder.imgLove.setImageDrawable(getResources().getDrawable(R.drawable.ic_love_fill));
+                }
+
+                e.onComplete();
+            }
+        }).observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Consumer<Object>() {
+                    @Override
+                    public void accept(Object o) throws Exception {
+
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Log.e("ERROR", throwable.getMessage());
+                    }
+                }, new Action() {
+                    @Override
+                    public void run() throws Exception {
+
+                    }
+                });
+        compositeDisposable.add(disposable);
+    }
+
+    private void deleteItemRecent(final Item item){
+
+        Disposable disposable = Observable.create(new ObservableOnSubscribe<Object>() {
+            @Override
+            public void subscribe(ObservableEmitter<Object> e) {
+
+                recentRepository.deleteRecentByName(item.getName());
+                e.onComplete();
+
+            }
+        }).observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Consumer<Object>() {
+                    @Override
+                    public void accept(Object o) {
+
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Log.e("ERROR", throwable.getMessage());
+                    }
+                }, new Action() {
+                    @Override
+                    public void run() throws Exception {
+
+                    }
+                });
         compositeDisposable.add(disposable);
     }
 

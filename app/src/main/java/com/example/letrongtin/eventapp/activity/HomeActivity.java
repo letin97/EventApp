@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import com.example.letrongtin.eventapp.Common.Common;
 import com.example.letrongtin.eventapp.Interface.Communicator;
 import com.example.letrongtin.eventapp.R;
+import com.example.letrongtin.eventapp.fragment.ConfigFragment;
 import com.example.letrongtin.eventapp.fragment.EventMenuFragment;
 import com.example.letrongtin.eventapp.fragment.ItemMenuFragment;
 import com.example.letrongtin.eventapp.fragment.NewsMenuFragment;
@@ -49,6 +50,8 @@ public class HomeActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        getSupportActionBar().setTitle("");
+
         navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(this);
 
@@ -65,7 +68,7 @@ public class HomeActivity extends AppCompatActivity
                 dataSearch = query;
                 if (query.length() > 0){
                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                    Fragment newFragment = new SearchFragment();
+                    Fragment newFragment = new SearchFragment(HomeActivity.this);
                     Bundle bundle = new Bundle();
                     bundle.putString("search", dataSearch);
                     newFragment.setArguments(bundle);
@@ -82,7 +85,7 @@ public class HomeActivity extends AppCompatActivity
             }
         });
 
-        loadFragment(new NewsMenuFragment());
+        loadFragment(new NewsMenuFragment(HomeActivity.this));
 
 //        if (getIntent() != null){
 //            String key = getIntent().getStringExtra("search");
@@ -115,7 +118,7 @@ public class HomeActivity extends AppCompatActivity
         switch (item.getItemId()){
             case R.id.action_news:
                 indexSelect = 0;
-                fragment = NewsMenuFragment.getInstance();
+                fragment = NewsMenuFragment.getInstance(HomeActivity.this);
                 break;
             case R.id.action_event:
                 indexSelect = 1;
@@ -125,9 +128,13 @@ public class HomeActivity extends AppCompatActivity
                 indexSelect = 2;
                 fragment = ItemMenuFragment.getInstance();
                 break;
+            case R.id.action_config:
+                indexSelect = 2;
+                fragment = ConfigFragment.getInstance(HomeActivity.this);
+                break;
             default:
-                indexSelect = 0;
-                fragment = NewsMenuFragment.getInstance();
+                indexSelect = 5;
+                fragment = NewsMenuFragment.getInstance(HomeActivity.this);
                 break;
         }
         return loadFragment(fragment);
@@ -161,7 +168,7 @@ public class HomeActivity extends AppCompatActivity
                 super.onBackPressed();
             } else {
                 navigation.setSelectedItemId(R.id.action_news);
-                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, NewsMenuFragment.getInstance()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, NewsMenuFragment.getInstance(HomeActivity.this)).commit();
             }
         }
     }
@@ -173,7 +180,7 @@ public class HomeActivity extends AppCompatActivity
                 Log.d("AAA", data.getStringExtra("search"));
                 dataSearch = data.getStringExtra("search");
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                Fragment newFragment = new SearchFragment();
+                Fragment newFragment = new SearchFragment(HomeActivity.this);
                 Bundle bundle = new Bundle();
                 bundle.putString("search", dataSearch);
                 newFragment.setArguments(bundle);

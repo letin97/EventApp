@@ -156,7 +156,9 @@ public class NewsDetailActivity extends AppCompatActivity {
                 news = (News) getIntent().getSerializableExtra("news");
                 Picasso.get()
                         .load(news.getImageLink())
+                        .fit()
                         .into(imgNews);
+
                 txtNewsTitle.setText(news.getTitle());
                 txtNewsDescription.setText(news.getDescription());
 
@@ -191,10 +193,13 @@ public class NewsDetailActivity extends AppCompatActivity {
                                     txtItemName.setText(item.getName());
                                     Picasso.get()
                                             .load(item.getImageLink())
+                                            .fit()
                                             .into(imgItem);
                                     Picasso.get()
                                             .load(item.getImageLink())
+                                            .fit()
                                             .into(imgCircleItem);
+
                                     txtItemDescription.setText(item.getDescription());
 
                                     btnItemWeb.setOnClickListener(new View.OnClickListener() {

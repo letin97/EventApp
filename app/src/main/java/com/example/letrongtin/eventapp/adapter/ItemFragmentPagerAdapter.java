@@ -39,7 +39,7 @@ public class ItemFragmentPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return "Hot";
             case 1:
-                return "Lịch sử";
+                return "Yêu thích";
         }
         return "";
     }

@@ -1,12 +1,14 @@
 package com.example.letrongtin.eventapp.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.letrongtin.eventapp.R;
+import com.example.letrongtin.eventapp.activity.NewsDetailActivity;
 import com.example.letrongtin.eventapp.model.News;
 import com.example.letrongtin.eventapp.viewholder.NewsViewHolder;
 import com.squareup.picasso.Picasso;
@@ -34,10 +36,12 @@ public class SearchFragmentAdapter extends RecyclerView.Adapter<NewsViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(NewsViewHolder holder, int position) {
+    public void onBindViewHolder(NewsViewHolder holder, final int position) {
         Picasso.get()
                 .load(newsList.get(position).getImageLink())
+                .fit()
                 .into(holder.imgNews);
+
         holder.txtNewsTitle.setText(newsList.get(position).getTitle());
 
         SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
@@ -48,6 +52,26 @@ public class SearchFragmentAdapter extends RecyclerView.Adapter<NewsViewHolder> 
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
+        holder.txtNewsTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent detail = new Intent(context, NewsDetailActivity.class);
+                detail.putExtra("news", newsList.get(position));
+                detail.putExtra("key", newsList.get(position).getId());
+                context.startActivity(detail);
+            }
+        });
+
+        holder.imgNews.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent detail = new Intent(context, NewsDetailActivity.class);
+                detail.putExtra("news", newsList.get(position));
+                detail.putExtra("key", newsList.get(position).getId());
+                context.startActivity(detail);
+            }
+        });
     }
 
     @Override

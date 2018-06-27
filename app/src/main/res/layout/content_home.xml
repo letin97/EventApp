@@ -20,6 +20,12 @@
             android:layout_height="match_parent">
         </FrameLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_above="@id/navigation"
+            android:background="@drawable/shadow"/>
+
         <android.support.design.widget.BottomNavigationView
             android:id="@+id/navigation"
             android:layout_alignParentBottom="true"

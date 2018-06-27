@@ -5,15 +5,17 @@ public class Item {
     private String description;
     private String link;
     private String imageLink;
+    private int star;
 
     public Item() {
     }
 
-    public Item(String name, String description, String link, String imageLink) {
+    public Item(String name, String description, String link, String imageLink, int star) {
         this.name = name;
         this.description = description;
         this.link = link;
         this.imageLink = imageLink;
+        this.star = star;
     }
 
     public String getName() {
@@ -46,5 +48,13 @@ public class Item {
 
     public void setLink(String link) {
         this.link = link;
+    }
+
+    public int getStar() {
+        return star;
+    }
+
+    public void setStar(int star) {
+        this.star = star;
     }
 }

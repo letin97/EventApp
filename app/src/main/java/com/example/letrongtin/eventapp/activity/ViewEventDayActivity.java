@@ -68,6 +68,7 @@ public class ViewEventDayActivity extends AppCompatActivity {
 
         Picasso.get()
                 .load(Common.EVENT_DAY_SELECT.getImageLink())
+                .fit()
                 .into(imgThumb);
 
         fabEventDayNews = findViewById(R.id.fab_event_day_news);

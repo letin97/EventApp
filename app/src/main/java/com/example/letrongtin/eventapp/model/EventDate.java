@@ -7,7 +7,6 @@ package com.example.letrongtin.eventapp.model;
 public class EventDate {
 
     private String name;
-    private String icon;
     private String description;
     private String imageLink;
     private String date;
@@ -15,9 +14,8 @@ public class EventDate {
     public EventDate() {
     }
 
-    public EventDate(String name, String icon, String description, String imageLink, String date) {
+    public EventDate(String name, String description, String imageLink, String date) {
         this.name = name;
-        this.icon = icon;
         this.description = description;
         this.imageLink = imageLink;
         this.date = date;
@@ -29,14 +27,6 @@ public class EventDate {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getIcon() {
-        return icon;
-    }
-
-    public void setIcon(String icon) {
-        this.icon = icon;
     }
 
     public String getDescription() {

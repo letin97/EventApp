@@ -6,6 +6,7 @@ public class News implements Serializable {
 
     private String id;
     private String source;
+    private String type;
     private String title;
     private String description;
     private String link;
@@ -15,8 +16,9 @@ public class News implements Serializable {
     public News() {
     }
 
-    public News(String source, String title, String description, String link, String imageLink, String pubDate) {
+    public News(String source, String type, String title, String description, String link, String imageLink, String pubDate) {
         this.source = source;
+        this.type = type;
         this.title = title;
         this.description = description;
         this.link = link;
@@ -24,9 +26,11 @@ public class News implements Serializable {
         this.pubDate = pubDate;
     }
 
-    public News(String id, String source, String title, String description, String link, String imageLink, String pubDate) {
+    public News(String id, String source, String type, String title, String description, String link, String imageLink, String pubDate) {
         this.id = id;
         this.source = source;
+
+        this.type = type;
         this.title = title;
         this.description = description;
         this.link = link;
@@ -48,6 +52,14 @@ public class News implements Serializable {
 
     public void setSource(String source) {
         this.source = source;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getTitle() {

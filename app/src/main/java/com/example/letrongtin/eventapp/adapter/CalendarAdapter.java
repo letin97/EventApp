@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -15,7 +14,6 @@ import com.example.letrongtin.eventapp.Common.Common;
 import com.example.letrongtin.eventapp.R;
 import com.example.letrongtin.eventapp.activity.ViewEventDayActivity;
 import com.example.letrongtin.eventapp.model.EventDate;
-import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -86,7 +84,6 @@ public class CalendarAdapter extends BaseAdapter {
 
     class ViewHolder{
         TextView txtDate;
-        ImageView imgIcon;
         RelativeLayout calendarItemLayout;
     }
 
@@ -98,7 +95,6 @@ public class CalendarAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.calendar_item, null);
             holder = new ViewHolder();
             holder.txtDate = convertView.findViewById(R.id.txt_date);
-            holder.imgIcon = convertView.findViewById(R.id.img_icon);
             holder.calendarItemLayout = convertView.findViewById(R.id.calendar_item_layout);
             convertView.setTag(holder);
         }
@@ -115,11 +111,11 @@ public class CalendarAdapter extends BaseAdapter {
         holder.txtDate.setText(date);
 
         if (Integer.parseInt(date) > 1 && position < firstDate){
-            holder.txtDate.setTextColor(Color.GRAY);
+            holder.txtDate.setTextColor(Color.LTGRAY);
             holder.txtDate.setClickable(false);
             holder.txtDate.setFocusable(false);
         } else if (Integer.parseInt(date) < 14 && position > 28){
-            holder.txtDate.setTextColor(Color.GRAY);
+            holder.txtDate.setTextColor(Color.LTGRAY);
             holder.txtDate.setClickable(false);
             holder.txtDate.setFocusable(false);
         } else {
@@ -127,12 +123,11 @@ public class CalendarAdapter extends BaseAdapter {
         }
 
         if (calendarString.get(position).equals(currentDateString)){
-            holder.calendarItemLayout.setBackgroundColor(Color.RED);
+            holder.calendarItemLayout.setBackgroundColor(Color.CYAN);
         } else {
-            holder.calendarItemLayout.setBackgroundColor(Color.WHITE);
+            holder.calendarItemLayout.setBackgroundColor(Color.TRANSPARENT);
         }
 
-        holder.imgIcon.setVisibility(View.INVISIBLE);
 
 //        if (date.length() == 1) {
 //            date = "0" + date;
@@ -152,18 +147,20 @@ public class CalendarAdapter extends BaseAdapter {
     private void setEventDay(ViewHolder holder, int position) {
         for (EventDate e:eventDates) {
             String date = e.getDate();
+            String[] separatedTime = calendarString.get(position).split("-");
+            String moth = separatedTime[1];
+            String date1 = separatedTime[2];
+            String dateString = moth + "-" + date1;
             int len = calendarString.size();
             if (len > position) {
-                if (calendarString.get(position).equals(date)) {
-                    //holder.calendarItemLayout.setBackgroundColor(Color.parseColor("#343434"));
-                    Picasso.get()
-                            .load(e.getIcon())
-                            .into(holder.imgIcon);
-                    holder.imgIcon.setVisibility(View.VISIBLE);
+                if (dateString.equals(date)) {
+                    holder.calendarItemLayout.setBackgroundResource(R.drawable.rounded_calender_item);
+                    //holder.calendarItemLayout.setVisibility(View.VISIBLE);
 
                 }
             }
         }
+
     }
 
     public void refreshDays(){
@@ -238,24 +235,28 @@ public class CalendarAdapter extends BaseAdapter {
 
     public void setSelectedDay(View view, int pos) {
 
-        if (previousView != null) {
-            previousView.setBackgroundColor(Color.WHITE);
-        }
+//        if (previousView != null) {
+//            previousView.setBackgroundColor(Color.WHITE);
+//        }
 
-        if (!calendarString.get(pos).equals(currentDateString))
-            view.setBackgroundColor(Color.CYAN);
+        //if (!calendarString.get(pos).equals(currentDateString))
+            //view.setBackgroundColor(Color.CYAN);
 
-        int len = calendarString.size();
-        if (len > pos) {
-            if (calendarString.get(pos).equals(currentDateString)) {
-
-            }else{
-                previousView = view;
-            }
-        }
+//        int len = calendarString.size();
+//        if (len > pos) {
+//            if (calendarString.get(pos).equals(currentDateString)) {
+//
+//            }else{
+//                previousView = view;
+//            }
+//        }
 
         for (EventDate e:eventDates) {
-            if (calendarString.get(pos).equals(e.getDate())){
+            String[] separatedTime = calendarString.get(pos).split("-");
+            String moth = separatedTime[1];
+            String date = separatedTime[2];
+            String dateString = moth + "-" + date;
+            if (dateString.equals(e.getDate())){
                 Common.EVENT_DAY_SELECT = e;
                 Intent intent = new Intent(context, ViewEventDayActivity.class);
                 context.startActivity(intent);

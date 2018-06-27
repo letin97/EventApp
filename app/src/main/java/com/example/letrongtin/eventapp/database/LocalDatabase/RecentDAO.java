@@ -30,4 +30,11 @@ public interface RecentDAO {
 
     @Query("DELETE FROM recent")
     void deleteAllRecent();
+
+    @Query("SELECT * FROM recent WHERE imageLink = :imageLink")
+    Recent getRecentByImageLink(String imageLink);
+
+    @Query("DELETE FROM recent WHERE name = :name")
+    void deleteRecentByName(String name);
+
 }

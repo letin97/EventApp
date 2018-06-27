@@ -12,7 +12,7 @@ import com.example.letrongtin.eventapp.R;
 public class EventDateViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
     public TextView txtDateCountdown, txtNameDate, txtDate;
-    public ImageView imgBackground;
+    public ImageView imgBackground, imgShadow;
 
     ItemClickListener listener;
 
@@ -27,6 +27,7 @@ public class EventDateViewHolder extends RecyclerView.ViewHolder implements View
         txtNameDate = itemView.findViewById(R.id.txt_name_date);
         txtDate = itemView.findViewById(R.id.txt_date);
         imgBackground = itemView.findViewById(R.id.img_background);
+        imgShadow = itemView.findViewById(R.id.img_shadow);
         itemView.setOnClickListener(this);
 
     }

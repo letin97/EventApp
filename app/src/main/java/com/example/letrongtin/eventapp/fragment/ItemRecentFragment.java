@@ -239,19 +239,11 @@ public class ItemRecentFragment extends Fragment implements ItemRecentAdapterCli
         PopupMenu popupMenu = new PopupMenu(getContext(), view);
         MenuInflater inflater = popupMenu.getMenuInflater();
         inflater.inflate(R.menu.popup_menu, popupMenu.getMenu());
-        if (recentList.get(positon).isLove()){
-            popupMenu.getMenu().getItem(0).setTitle("Xóa vào yêu thích");
-        }else {
-            popupMenu.getMenu().getItem(0).setTitle("Thêm khỏi yêu thích");
-        }
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.action_add_favourite:
-                        updateIsLoveItemRecent(positon);
-                        return true;
-                    case R.id.action_remove_recent:
+                    case R.id.action_remove_favourite:
                         deleteItemRecent(positon);
                         return true;
                     default:

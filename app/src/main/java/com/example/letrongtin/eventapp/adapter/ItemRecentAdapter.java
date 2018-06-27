@@ -38,6 +38,7 @@ public class ItemRecentAdapter extends RecyclerView.Adapter<ItemRecentViewHolder
     public void onBindViewHolder(ItemRecentViewHolder holder, final int position) {
         Picasso.get()
                 .load(recents.get(position).getImageLink())
+                .fit()
                 .into(holder.imgItem, new Callback() {
                     @Override
                     public void onSuccess() {
