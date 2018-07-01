@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_mua_xuan"
     android:id="@+id/root_layout"
-    tools:context="com.example.letrongtin.eventapp.fragment.CalendarFragment">
+    tools:context="com.uit.letrongtin.eventapp.fragment.CalendarFragment">
 
 
     <LinearLayout

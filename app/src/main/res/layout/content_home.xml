@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="com.example.letrongtin.eventapp.help.FixScrollingFooterBehavior"
-    tools:context="com.example.letrongtin.eventapp.activity.HomeActivity"
+    app:layout_behavior="com.uit.letrongtin.eventapp.help.FixScrollingFooterBehavior"
+    tools:context="com.uit.letrongtin.eventapp.activity.HomeActivity"
     tools:showIn="@layout/app_bar_home">
 
     <RelativeLayout

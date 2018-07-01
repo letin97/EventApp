@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:918532599991:android:0f7c3fd8867b92ba",
         "android_client_info": {
-          "package_name": "com.example.letrongtin.eventapp"
+          "package_name": "com.uit.letrongtin.eventapp"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "918532599991-h5rbb2ktn94e6t6db796qsee4le420i0.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.letrongtin.eventapp",
+            "package_name": "com.uit.letrongtin.eventapp",
             "certificate_hash": "3b1f75c0c30a94ce69c5b1af9acd7706aea4de83"
           }
         },
@@ -54,7 +54,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:918532599991:android:207b6c28e4d109de",
         "android_client_info": {
-          "package_name": "com.example.letrongtin.firebasestroge"
+          "package_name": "com.uit.letrongtin.firebasestroge"
         }
       },
       "oauth_client": [
@@ -62,7 +62,7 @@
           "client_id": "918532599991-5aejr76bv755aqn8fgkikuejmg4j4dcn.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.letrongtin.firebasestroge",
+            "package_name": "com.uit.letrongtin.firebasestroge",
             "certificate_hash": "3b1f75c0c30a94ce69c5b1af9acd7706aea4de83"
           }
         },

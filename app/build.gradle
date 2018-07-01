@@ -4,11 +4,11 @@ android {
     compileSdkVersion 26
     defaultConfig {
         multiDexEnabled true
-        applicationId "com.example.letrongtin.eventapp"
+        applicationId "com.uit.letrongtin.eventapp"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "2.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
