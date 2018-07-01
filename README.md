@@ -34,7 +34,8 @@ Xem các mặt hàng hot trên thị trường.
    
    <p align="center">
    <img src="screenshots/tin_tuc.png" height = "480" width="270"> <img src="screenshots/chi_tiet_tin.png" height = "480" width="270"> <img src="screenshots/web_tin.png" height = "480" width="270">
-   
+   </p>
+   <p align="center">
    <img src="screenshots/chia_se_tin.png" height = "480" width="270"> <img src="screenshots/loai_tin.png" height = "480" width="270">
    </p>
     
